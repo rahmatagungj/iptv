@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IPTV | Rahmat Agung Julians</title>
+    <link href="https://vjs.zencdn.net/7.18.1/video-js.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <style>
+    /* dark theme */
+    body {
+      background-color: #1a1a1a;
+      color: #fff;
+    }
+  </style>
+  <body data-bs-theme="dark">
+    <div class="container pt-5">
+      <div class="row">
+        <div class="col-10">
+          <video
+            id="videoPlayer"
+            class="video-js vjs-default-skin"
+            controls
+            preload="auto"
+            width="888"
+            height="500"
+          ></video>
+        </div>
+        <div
+          class="col-2 list-group overflow-y-scroll"
+          style="height: 500px"
+          id="channelList"
+        >
+          <!-- Channels will be dynamically added here -->
+        </div>
+      </div>
+    </div>
+
+    <script src="https://vjs.zencdn.net/7.18.1/video.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const channels = [
+        {
+          location:
+            "https://b1news.beritasatumedia.com/Beritasatu/B1News_manifest.m3u8",
+          title: "BeritaSatu",
+        },
+        {
+          location:
+            "https://live.cnbcindonesia.com/livecnbc/smil:cnbctv.smil/master.m3u8",
+          title: "CNBC Indonesia",
+        },
+        {
+          location:
+            "https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/playlist.m3u8",
+          title: "CNN Indonesia",
+        },
+        {
+          location: "http://103.255.15.222:1935/tv/jitv_720p/playlist.m3u8",
+          title: "Jogja Istimewa TV",
+        },
+        {
+          location:
+            "https://cdn.gunadarma.ac.id/streams/mgstv/ingestmgstv.m3u8",
+          title: "MGS TV",
+        },
+        {
+          location:
+            "https://video.detik.com/trans7/smil:trans7.smil/playlist.m3u8",
+          title: "Trans7",
+        },
+        {
+          location:
+            "https://video.detik.com/transtv/smil:transtv.smil/playlist.m3u8",
+          title: "Trans TV",
+        },
+        {
+          location: "http://103.18.181.69:1935/golive/livestream/playlist.m3u8",
+          title: "TVR Parlemen",
+        },
+        {
+          location: "https://cdn.gunadarma.ac.id/streams/ugtv/ingestugtv.m3u8",
+          title: "UGTV",
+        },
+        {
+          location:
+            "https://ythls.armelin.one/channel/UC5BMIWZe9isJXLZZWPWvBlg.m3u8",
+          title: "Kompas TV",
+        },
+        {
+          location: "https://e.siar.us/live/aktv.m3u8",
+          title: "AKTV",
+        },
+        {
+          location: "https://tv.aliman.id/aliman/live.m3u8",
+          title: "Al-Iman TV",
+        },
+        {
+          location: "https://ammedia.siar.us/ammedia/live/playlist.m3u8",
+          title: "Alwafa Tarim TV (Am Media)",
+        },
+        {
+          location: "https://wag.ika.lat/stream/870547344",
+          title: "Animax Asia",
+        },
+        {
+          location: "http://203.77.246.2:443/udp/239.1.1.104:5000",
+          title: "ANTV",
+        },
+        {
+          location:
+            "https://5bf7b725107e5.streamlock.net/btv/btv/playlist.m3u8",
+          title: "Balikpapan TV",
+        },
+        {
+          location: "http://202.150.153.254:65500/bandungtvWEBSITE.m3u8",
+          title: "Bandung TV (360p)",
+        },
+        {
+          location:
+            "https://5bf7b725107e5.streamlock.net/bantentv/bantentv/playlist.m3u8",
+          title: "Banten TV",
+        },
+        {
+          location:
+            "https://b1news.beritasatumedia.com/Beritasatu/B1News_manifest.m3u8",
+          title: "BTV",
+        },
+        {
+          location:
+            "https://5bf7b725107e5.streamlock.net/bungotv/bungotv/playlist.m3u8",
+          title: "Bungo TV",
+        },
+        {
+          location: "https://b.webcache.maxindo.net.id/dhamma/dhamma.m3u8",
+          title: "Dhamma TV",
+        },
+        {
+          location: "https://dhohotv.siar.us/dhohotv/live/playlist.m3u8",
+          title: "Dhoho TV",
+        },
+        {
+          location:
+            "https://cdn01-telkomsel-01.akamaized.net/Content/HLS/Live/channel(6854467f-52fe-48ee-9822-00233c678709)/index.m3u8",
+          title: "Dunia Games TV",
+        },
+        {
+          location: "https://dutatv.siar.us/dutatv/live/playlist.m3u8",
+          title: "Duta TV (360p)",
+        },
+        {
+          location: "https://v3.siar.us/ficomchannel/live/playlist.m3u8",
+          title: "Ficom Channel",
+        },
+        {
+          location: "https://etv-cdn.kdb.co.id/GarudaTV-Stream/index.m3u8",
+          title: "Garuda TV",
+        },
+        {
+          location: "https://v3.siar.us/humabetangtv/live/playlist.m3u8",
+          title: "Huma Betang TV",
+        },
+        {
+          location:
+            "https://b1world.beritasatumedia.com/Beritasatu/B1World_manifest.m3u8",
+          title: "IDTV",
+        },
+        {
+          location: "http://203.77.246.2:443/udp/239.1.1.110:5000",
+          title: "Indosiar",
+        },
+        {
+          location: "https://inspiratv.siar.us/inspiratv/live/playlist.m3u8",
+          title: "Inspira TV",
+        },
+        {
+          location: "https://streaming.radiosalamjambi.com/izzahtv.m3u8",
+          title: "Izzah TV",
+        },
+        {
+          location: "https://jawapostv.siar.us/jawapostv/live/playlist.m3u8",
+          title: "Jawa Pos TV",
+        },
+        {
+          location: "https://stream.jogjatv.co.id/jtvlive/stream/index.m3u8",
+          title: "Jogja TV",
+        },
+        {
+          location:
+            "https://5bf7b725107e5.streamlock.net/kstv/kstv/playlist.m3u8",
+          title: "Kilisuci TV",
+        },
+        {
+          location: "https://lingkartv.my.id/hls/lingkartv.m3u8",
+          title: "Lingkar TV",
+        },
+        {
+          location: "https://re1.siar.us/madutv/hd720/playlist.m3u8",
+          title: "Madu TV (576p)",
+        },
+        {
+          location:
+            "https://edge.medcom.id/live-edge/smil:magna.smil/playlist.m3u8",
+          title: "Magna Channel",
+        },
+        {
+          location:
+            "https://ythls.armelin.one/channel/UCem4zrffr93cp-o8cOPDhdQ.m3u8",
+          title: "Media Sunnah Aceh",
+        },
+        {
+          location: "https://v6.siar.us/pujatv/live/chunks.m3u8",
+          title: "Puja TV Aceh",
+        },
+        {
+          location:
+            "https://cdn09jtedge.indihometv.com/joss/130/rtv/index.m3u8",
+          title: "Rajawali TV",
+        },
+        {
+          location: "https://wag.ika.lat/stream/507371538",
+          title: "Rock Action Southeast Asia",
+        },
+        {
+          location: "https://rodjatv.com/rodjatv/live.m3u8",
+          title: "Rodja TV",
+        },
+        {
+          location: "https://saktitv.siar.us/saktitv/live/playlist.m3u8",
+          title: "Sakti TV",
+        },
+        {
+          location:
+            "https://cdn.gunadarma.ac.id/streams/sangajitv/ingestsangajitv.m3u8",
+          title: "Sangaji TV",
+        },
+        {
+          location: "http://203.77.246.2:443/udp/239.1.1.108:5000",
+          title: "SCTV",
+        },
+        {
+          location: "http://116.254.112.74/hls/cakralive.m3u8",
+          title: "Semarang TV",
+        },
+        {
+          location:
+            "https://ythls.armelin.one/channel/UCER4rvDnRBPr_ncYW4UCZjg.m3u8",
+          title: "tvOne",
+        },
+        {
+          location:
+            "https://ams.juraganstreaming.com:5443/LiveApp/streams/wesaltv.m3u8",
+          title: "Wesal TV",
+        },
+        // { location: "", title: "" },
+        // Add additional channels here
+      ]
+
+      // Initialize Video.js player
+      const player = videojs("videoPlayer")
+
+      // Function to load channel into Video.js player
+      function loadChannel(location, listItem) {
+        player.src({ src: location, type: "application/x-mpegURL" })
+        player.play()
+        const listItems = document.querySelectorAll(".list-group-item")
+        listItems.forEach((item) => {
+          item.classList.remove("active")
+        })
+        listItem.classList.add("active")
+      }
+
+      // Render the channel list
+      const channelList = document.getElementById("channelList")
+      channels.forEach((channel) => {
+        const listItem = document.createElement("button")
+        listItem.classList = "list-group-item list-group-item-action"
+        listItem.textContent = channel.title
+        listItem.style.cursor = "pointer"
+        listItem.onclick = () => loadChannel(channel.location, listItem)
+        channelList.appendChild(listItem)
+      })
+    </script>
+  </body>
+</html>
+
